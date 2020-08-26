@@ -6,7 +6,9 @@ import {useDispatch, useSelector} from 'react-redux';
 //Actions de Redux
 import {crearNuevoProductoAction} from '../actions/productoActions';
 
-const NuevoProducto = () => {
+//Cuando instalamos ReactRouterDOM y nuestros componentes estan en el routing tenemos acceso al "history"
+//Asi que lo podmeos extrar
+const NuevoProducto = ({history}) => {
 
     //state del componente
     const [nombre, guardarNombre] = useState('');
@@ -15,6 +17,9 @@ const NuevoProducto = () => {
     //utilizat useDispatch y te crea una funcion
     const dispatch = useDispatch();
 
+    // Acceder al state del store
+    const cargando = useSelector((state) => state.productos.loading);
+    const error = useSelector(state => state.productos.error);
     //El dispatch es como una funcion que toma otra funcion
     //Dispatch sirve para mandar a ejecutar las funciones que tengamos en nuestros actions
     
@@ -37,6 +42,9 @@ const NuevoProducto = () => {
             nombre,
             precio
         });
+
+        //reedireccionar
+        history.push('/');
     }
 
     return (
@@ -84,6 +92,9 @@ const NuevoProducto = () => {
                             
 
                         </form>
+
+                        {cargando ? <p>Cargando... </p> : null}
+                        {error ? <p className = "alert alert-danger p2 mt-4">Hubo un error</p> : null};
                     </div>
                 </div>
             </div>
